@@ -71,16 +71,26 @@ public class sensorauto_v4 extends LinearOpMode {
             switch (step)
             {
                 case 1:
-                    if (COUNTS > (Math.abs(rightMotorRear.getCurrentPosition())+Math.abs(leftMotorRear.getCurrentPosition())/2)) {
-                        rightMotorRear.setPower(0.3);
-                        leftMotorRear.setPower(0.3);
-                    } else {
-                        rightMotorRear.setPowerFloat();
-                        leftMotorRear.setPowerFloat();
-                        step++;
+                case 2:
+                    resetStartTime();
+                    while(getRuntime() < 5) {
+
+                        if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
+                            leftMotorRear.setPower(0.3);
+                        } else {
+                            leftMotorRear.setPowerFloat();
+                            step++;
+                        }
+
+                        if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
+                            rightMotorRear.setPower(0.3);
+                        } else {
+                            rightMotorRear.setPowerFloat();
+                            step++;
+                        }
                     }
                     break;
-                case 2:
+                case 3:
                     if (distance_l < distance)
                     {
                         leftMotorRear.setPower(0.3);
