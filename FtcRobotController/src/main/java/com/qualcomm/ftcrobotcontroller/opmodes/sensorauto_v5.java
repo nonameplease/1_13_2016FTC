@@ -68,7 +68,8 @@ public class sensorauto_v5 extends LinearOpMode {
         while(opModeIsActive()) {
 
                     resetStartTime();
-                    while(getRuntime() < 5) {
+                    double lalala = getRuntime();
+                    while(lalala < 5) {
                         telemetry.addData("run time", getRuntime());
 
                         if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
