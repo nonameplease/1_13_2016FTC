@@ -69,6 +69,7 @@ public class sensorauto_v5 extends LinearOpMode {
 
                     resetStartTime();
                     while(getRuntime() < 5) {
+                        telemetry.addData("run time", getRuntime());
 
                         if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
                             leftMotorRear.setPower(0.3);
