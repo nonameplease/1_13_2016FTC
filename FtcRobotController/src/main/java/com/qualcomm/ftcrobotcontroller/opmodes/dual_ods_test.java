@@ -46,30 +46,30 @@ public class
 
 
 
-        if (distance_l < 0.02)
+        if (distance_l < 300)
         {
-            leftMotor.setPower(-0.5);
+            //leftMotor.setPower(-0.5);
             //rightMotor.setPower(0.5);
             leftMotorRear.setPower(-0.5);
            // rightMotorRear.setPower(0.5);
         }
         else
         {
-            leftMotor.setPowerFloat();
+            //leftMotor.setPowerFloat();
            // rightMotor.setPowerFloat();
             leftMotorRear.setPowerFloat();
            // rightMotorRear.setPowerFloat();
         }
 
-        if (distance_r < 0.02)
+        if (distance_r < 300)
         {
-            rightMotor.setPower(-0.5);
+            //rightMotor.setPower(-0.5);
             rightMotorRear.setPower(-0.5);
         }
         else
         {
             rightMotorRear.setPowerFloat();
-            rightMotor.setPowerFloat();
+           // rightMotor.setPowerFloat();
         }
 
 

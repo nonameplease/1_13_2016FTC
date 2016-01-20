@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 distance in inches
 distance for distance sensor is 300
  */
-public class sensorauto_v4 extends LinearOpMode {
+public class sensorauto_v6 extends LinearOpMode {
 
     DeviceInterfaceModule dim;
     AnalogInput ods_l;
@@ -68,30 +68,26 @@ public class sensorauto_v4 extends LinearOpMode {
 
         while(opModeIsActive()) {
 
+            if(step < 3) {
+                while (COUNTS + 50 > Math.abs(leftMotorRear.getCurrentPosition())) {
 
-
-            switch (step)
-            {
-                case 1:
-                case 2:
-                    while(COUNTS + 50 > Math.abs(leftMotorRear.getCurrentPosition())) {
-
-                        if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
-                            leftMotorRear.setPower(0.3);
-                        } else {
-                            leftMotorRear.setPowerFloat();
-                            step++;
-                        }
-
-                        if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
-                            rightMotorRear.setPower(0.3);
-                        } else {
-                            rightMotorRear.setPowerFloat();
-                            step++;
-                        }
+                    if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
+                        leftMotorRear.setPower(0.3);
+                    } else {
+                        leftMotorRear.setPowerFloat();
+                        step++;
                     }
-                    //break;
-                case 3:
+
+                    if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
+                        rightMotorRear.setPower(0.3);
+                    } else {
+                        rightMotorRear.setPowerFloat();
+                        step++;
+                    }
+                }
+            }
+                else if(step > 3)
+            {
                     if (distance_l < distance)
                     {
                         leftMotorRear.setPower(0.3);
@@ -122,11 +118,7 @@ public class sensorauto_v4 extends LinearOpMode {
                     {
                         step++;
                     }
-                   // break;
-                default:
-                    leftMotorRear.setPowerFloat();
-                    rightMotorRear.setPowerFloat();
-                    break;
+
             }
 
             telemetry.addData("Counts", COUNTS);

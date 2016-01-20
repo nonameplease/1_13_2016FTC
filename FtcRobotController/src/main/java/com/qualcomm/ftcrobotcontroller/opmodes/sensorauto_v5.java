@@ -1,6 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +17,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 distance in inches
 distance for distance sensor is 300
  */
-public class sensorauto_v5 extends LinearOpMode {
+public class sensorauto_v5 extends OpMode {
 
     DeviceInterfaceModule dim;
     AnalogInput ods_l;
@@ -38,8 +39,11 @@ public class sensorauto_v5 extends LinearOpMode {
 
     final static double distance = 300;
 
+    int aa = 1;
+
+
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void init() {
 
         dim = hardwareMap.deviceInterfaceModule.get("device");
         ods_l = hardwareMap.analogInput.get("odsl");
@@ -54,73 +58,72 @@ public class sensorauto_v5 extends LinearOpMode {
         leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
-        double distance_l = ods_l.getValue();
-        double distance_r = ods_r.getValue();
-
-
-
-        waitForStart();
-
         leftMotorRear.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         rightMotorRear.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 
-        while(opModeIsActive()) {
-
-                    resetStartTime();
-                    double lalala = getRuntime();
-                    while(lalala < 5) {
-                        telemetry.addData("run time", getRuntime());
-
-                        if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
-                            leftMotorRear.setPower(0.3);
-                        } else {
-                            leftMotorRear.setPowerFloat();
-                        }
-
-                        if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
-                            rightMotorRear.setPower(0.3);
-                        } else {
-                            rightMotorRear.setPowerFloat();
-                        }
-                    }
-
-                    if (distance_l < distance)
-                    {
-                        leftMotorRear.setPower(0.3);
-                    }
-                    else if (distance_l > distance)
-                    {
-                        leftMotorRear.setPower(-0.3);
-                    }
-                    else
-                    {
-                        leftMotorRear.setPowerFloat();
-                    }
-
-                    if (distance_r < distance)
-                    {
-                        rightMotorRear.setPower(0.3);
-                    }
-                    else if (distance_r > distance)
-                    {
-                        rightMotorRear.setPower(-0.3);
-                    }
-                    else
-                    {
-                        rightMotorRear.setPowerFloat();
-                    }
-
-
-            }
-
-            telemetry.addData("Counts", COUNTS);
-            telemetry.addData("Left Encoder", leftMotorRear.getCurrentPosition());
-            telemetry.addData("Right Encoder", rightMotorRear.getCurrentPosition());
-            telemetry.addData("left distance", distance_l);
-            telemetry.addData("right distance", distance_r);
-
-            waitOneFullHardwareCycle();
-        }
     }
+
+
+    @Override
+    public void loop() {
+
+
+        double distance_l = ods_l.getValue();
+        double distance_r = ods_r.getValue();
+
+
+        switch (aa) {
+            case 1:
+                leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                aa++;
+            case 2:
+
+
+                if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
+                    leftMotorRear.setPower(-0.3);
+                } else {
+                    leftMotorRear.setPowerFloat();
+                    aa++;
+                }
+
+                if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
+                    rightMotorRear.setPower(-0.3);
+                } else {
+                    rightMotorRear.setPowerFloat();
+                }
+
+
+            case 3:
+
+                if (distance_l < distance) {
+                    leftMotorRear.setPower(-0.3);
+                } else if (distance_l > distance) {
+                    leftMotorRear.setPower(0.3);
+                } else {
+                    leftMotorRear.setPowerFloat();
+                }
+
+                if (distance_r < distance) {
+                    rightMotorRear.setPower(-0.3);
+                } else if (distance_r > distance) {
+                    rightMotorRear.setPower(0.3);
+                } else {
+                    rightMotorRear.setPowerFloat();
+                }
+        }
+
+
+        telemetry.addData("Counts", COUNTS);
+        telemetry.addData("Left Encoder", leftMotorRear.getCurrentPosition());
+        telemetry.addData("Right Encoder", rightMotorRear.getCurrentPosition());
+        telemetry.addData("left distance", distance_l);
+        telemetry.addData("right distance", distance_r);
+        telemetry.addData("case", aa);
+
+
+    }
+}
+
 

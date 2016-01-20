@@ -129,10 +129,6 @@ public class tele_red_12_19_15 extends LinearOpMode {
 
             }
 
-            if (gamepad1.left_trigger > 0.2) {
-                double ltvalue = gamepad1.left_trigger;
-                resQ.setPosition(ltvalue);
-            }
 
             if (gamepad2.y) {
                 pickUp.setPower(1);

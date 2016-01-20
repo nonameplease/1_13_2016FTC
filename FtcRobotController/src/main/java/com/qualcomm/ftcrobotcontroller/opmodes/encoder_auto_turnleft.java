@@ -14,13 +14,15 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 /*
 This one really works!!!!
  */
-public class encoder_test_2 extends LinearOpMode {
+public class encoder_auto_turnleft extends LinearOpMode {
 
     DeviceInterfaceModule dim;
     ColorSensor color;
 
     DcMotor leftMotorRear;
     DcMotor rightMotorRear;
+    DcMotor leftMotor;
+    DcMotor rightMotor;
     //change the value if necessary LOL
     final static int ENCODER_CPR = 1120;
     final static double GEAR_RATIO = 1;
@@ -39,8 +41,11 @@ public class encoder_test_2 extends LinearOpMode {
 
         leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
         rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
+        leftMotor = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
 
         rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -53,49 +58,63 @@ public class encoder_test_2 extends LinearOpMode {
         while(true) {
             if (COUNTS + 50 > Math.abs(leftMotorRear.getCurrentPosition())) {
                 if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
-                    leftMotorRear.setPower(-0.3);
+                    leftMotorRear.setPower(-0.6);
+                    leftMotor.setPower(-0.6);
+
                 } else {
                     leftMotorRear.setPowerFloat();
+                    leftMotor.setPowerFloat();
                 }
 
                 if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
-                    rightMotorRear.setPower(-0.3);
+                    rightMotorRear.setPower(-0.6);
+                    rightMotor.setPower(-0.6);
                 } else {
                     rightMotorRear.setPowerFloat();
+                    rightMotor.setPowerFloat();
                 }
             } else if (COUNTS + 50 < Math.abs(leftMotorRear.getCurrentPosition()) && COUNTS + 2100 > Math.abs(leftMotorRear.getCurrentPosition())) {
                 if (2000 + COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
-                    leftMotorRear.setPower(-0.3);
+                    leftMotorRear.setPower(-0.6);
+                    leftMotor.setPower(-0.6);
                 } else {
                     leftMotorRear.setPowerFloat();
+                    leftMotor.setPowerFloat();
                 }
 
 
                 if (COUNTS - 2000 < Math.abs(rightMotorRear.getCurrentPosition())) {
-                    rightMotorRear.setPower(0.3);
+                    rightMotorRear.setPower(0.6);
+                    rightMotor.setPower(0.6);
                 } else {
                     rightMotorRear.setPowerFloat();
+                    rightMotor.setPowerFloat();
                 }
 
             }else
             {
-                    leftMotorRear.setPower(-0.3);
-                rightMotorRear.setPower(-0.3);
+                leftMotorRear.setPower(-0.6);
+                rightMotorRear.setPower(-0.6);
+                leftMotor.setPower(-0.6);
+                rightMotor.setPower(-0.6);
                 sleep(2000);
                 leftMotorRear.setPowerFloat();
                 rightMotorRear.setPowerFloat();
+                leftMotor.setPowerFloat();
+                rightMotor.setPowerFloat();
                 sleep(30000);
             }
 
 
             waitOneFullHardwareCycle();
+            
 
 
             telemetry.addData("Counts", COUNTS);
             telemetry.addData("Left Encoder", leftMotorRear.getCurrentPosition());
             telemetry.addData("Right Encoder", rightMotorRear.getCurrentPosition());
         }
-        }
-
     }
+
+}
 
