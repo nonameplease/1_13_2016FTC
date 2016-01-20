@@ -26,6 +26,7 @@ public class encoder_test_3 extends OpMode {
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
     final static double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
     final static int COUNTSINT = (int) COUNTS;
+    String state = "running";
 
     @Override
     public void init() {
@@ -38,18 +39,29 @@ public class encoder_test_3 extends OpMode {
 
         rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
 
+        leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
     }
 
     @Override
     public void start()
     {
+        leftMotorRear.setTargetPosition(COUNTSINT);
+        rightMotorRear.setPower(COUNTSINT);
 
         leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        leftMotorRear.setPower(0.5);
+        rightMotorRear.setPower(0.5);
+
+        if (!leftMotorRear.isBusy() && !rightMotorRear.isBusy())
+        {
+            state = "stopped";
+        }
+
+
 
 
     }
@@ -57,9 +69,13 @@ public class encoder_test_3 extends OpMode {
 
     @Override
     public void loop() {
-        leftMotorRear.setTargetPosition(COUNTSINT);
-        rightMotorRear.setPower(COUNTSINT);
 
+
+
+            telemetry.addData("Counts", COUNTSINT);
+            telemetry.addData("left counts = ", leftMotorRear.getCurrentPosition());
+            telemetry.addData("right counts =", rightMotorRear.getCurrentPosition());
+            telemetry.addData("running status", state);
 
 
        /** if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
