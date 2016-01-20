@@ -18,13 +18,14 @@ public class encoder_test_3 extends OpMode {
     DcMotor rightMotorRear;
     //change the value if necessary LOL
     final static int ENCODER_CPR = 1120;
-    final static double GEAR_RATIO = 1;
+    final static int GEAR_RATIO = 1;
     final static int WHEEL_DIAMETER = 4;
     final static int DISTANCE = 36; //in inches
 
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
     final static double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+    final static int COUNTSINT = (int) COUNTS;
 
     @Override
     public void init() {
@@ -37,18 +38,31 @@ public class encoder_test_3 extends OpMode {
 
         rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
 
+
+    }
+
+    @Override
+    public void start()
+    {
+
         leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
+
     }
+
 
     @Override
     public void loop() {
+        leftMotorRear.setTargetPosition(COUNTSINT);
+        rightMotorRear.setPower(COUNTSINT);
 
-        if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
+
+
+       /** if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
             leftMotorRear.setPower(0.3);
         } else {
             leftMotorRear.setPowerFloat();
@@ -58,7 +72,7 @@ public class encoder_test_3 extends OpMode {
             rightMotorRear.setPower(0.3);
         } else {
             rightMotorRear.setPowerFloat();
-        }
+        } **/
 
     }
 }
