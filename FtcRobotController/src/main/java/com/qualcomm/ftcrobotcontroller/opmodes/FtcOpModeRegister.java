@@ -66,19 +66,21 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("linear_tele_red_12_19_15", tele_red_12_19_15.class);
     manager.register("linear_auto_no_sensor_blue", linear_auto_no_sensor_blue.class);
     manager.register("linear_auto_no_sensor_red", linear_auto_no_sensor_red.class);
-    //manager.register("Color_sensor_test", color_sensor_test.class);
+    manager.register("Color_sensor_test", color_sensor_test.class);
     //manager.register("Optical_distance_sensor_test", optical_distance_sensor_test.class);
     //manager.register("sensorauto_v3 ", sensorauto_v3.class);
     manager.register("dualodstest", dual_ods_test.class);
     //manager.register("followlinetest", followlinetest.class);
-    manager.register("sensorauto_v4", sensorauto_v4.class);
+    //manager.register("sensorauto_v4", sensorauto_v4.class);
     //manager.register("encoder_test", Encoder_test.class);
     manager.register("encoder_test_2", encoder_test_2.class);
     //manager.register("sensorauto v5", sensorauto_v5.class);
     //manager.register("sensorauto v6", sensorauto_v6.class);
     manager.register("encoder_test_3", encoder_test_3.class);
+    manager.register("encoder_test_4", encoder_test_4.class);
       manager.register("endcoderauto_turnleft", encoder_auto_turnleft.class);
     manager.register("encoderauto_turnright", encoder_auto_turnright.class);
+    manager.register("sensorauto_v7", sensorauto_v7.class);
 
 
     /*

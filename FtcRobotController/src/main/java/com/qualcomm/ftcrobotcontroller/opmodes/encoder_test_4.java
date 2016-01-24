@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 /**
  * Created by Scott on 1/17/2016.
  */
-public class encoder_test_3 extends OpMode {
+public class encoder_test_4 extends OpMode {
 
     DeviceInterfaceModule dim;
     ColorSensor color;
@@ -25,7 +25,7 @@ public class encoder_test_3 extends OpMode {
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
     final static double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
-    final static int COUNTSINT = (int) COUNTS;
+    final static int COUNTSINT = (int) COUNTS * -1;
     String state = "running";
 
     @Override
@@ -54,8 +54,8 @@ public class encoder_test_3 extends OpMode {
         leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        leftMotorRear.setPower(0.5);
-        rightMotorRear.setPower(0.5);
+        leftMotorRear.setPower(-0.5);
+        rightMotorRear.setPower(-0.5);
 
         if (!leftMotorRear.isBusy() && !rightMotorRear.isBusy())
         {
@@ -77,24 +77,23 @@ public class encoder_test_3 extends OpMode {
 
 
 
+        telemetry.addData("Counts", COUNTSINT);
+        telemetry.addData("left counts = ", leftMotorRear.getCurrentPosition());
+        telemetry.addData("right counts =", rightMotorRear.getCurrentPosition());
+        telemetry.addData("running status", state);
 
-            telemetry.addData("Counts", COUNTSINT);
-            telemetry.addData("left counts = ", leftMotorRear.getCurrentPosition());
-            telemetry.addData("right counts =", rightMotorRear.getCurrentPosition());
-            telemetry.addData("running status", state);
 
+        /** if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
+         leftMotorRear.setPower(0.3);
+         } else {
+         leftMotorRear.setPowerFloat();
+         }
 
-       /** if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {
-            leftMotorRear.setPower(0.3);
-        } else {
-            leftMotorRear.setPowerFloat();
-        }
-
-        if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
-            rightMotorRear.setPower(0.3);
-        } else {
-            rightMotorRear.setPowerFloat();
-        } **/
+         if (COUNTS > Math.abs(rightMotorRear.getCurrentPosition())) {
+         rightMotorRear.setPower(0.3);
+         } else {
+         rightMotorRear.setPowerFloat();
+         } **/
 
     }
 }
