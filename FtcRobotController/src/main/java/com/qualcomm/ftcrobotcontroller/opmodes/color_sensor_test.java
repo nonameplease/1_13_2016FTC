@@ -10,7 +10,22 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
  */
 
 
-//threshold is 1000
+/*
+grey
+blue 220 - 245
+green 310 - 330
+red 390 - 410
+
+white
+blue 600 - 700
+green 750 - 900
+red 800 - 850
+
+red
+blue 180 - 220
+green 220 - 270
+red 600 - 650
+ */
 
 public class color_sensor_test extends OpMode {
 
