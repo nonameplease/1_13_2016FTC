@@ -32,6 +32,7 @@ public class sensorauto_v7 extends OpMode {
 
 
     final static double distance = 300;
+    String state;
 
     @Override
     public void init() {
@@ -54,28 +55,41 @@ public class sensorauto_v7 extends OpMode {
 
     }
 
-    @Override
-    public void start()
-    {
-        leftMotorRear.setTargetPosition(COUNTSINT);
-        rightMotorRear.setTargetPosition(COUNTSINT);
-        leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        leftMotorRear.setPower(-0.5);
-        rightMotorRear.setPower(-0.5);
-    }
 
     @Override
     public void loop() {
         double distance_l = ods_l.getValue();
         double distance_r = ods_r.getValue();
+        for(int i = 1; i < 2; i++)
+        {
+
+            leftMotorRear.setTargetPosition(COUNTSINT);
+            rightMotorRear.setTargetPosition(COUNTSINT);
+            leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+
+            leftMotorRear.setPower(-0.5);
+            rightMotorRear.setPower(-0.5);
+        }
+            leftMotorRear.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+            rightMotorRear.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
+
+        if (!leftMotorRear.isBusy() && !rightMotorRear.isBusy())
+        {
+            state = "stopped";
+        }
+        else
+        {
+            state = "running";
+        }
 
         if (distance_l < 300)
         {
             //leftMotor.setPower(-0.5);
             //rightMotor.setPower(0.5);
-            leftMotorRear.setPower(-0.5);
+            leftMotorRear.setPower(-0.3);
             // rightMotorRear.setPower(0.5);
         }
         else
@@ -89,7 +103,7 @@ public class sensorauto_v7 extends OpMode {
         if (distance_r < 300)
         {
             //rightMotor.setPower(-0.5);
-            rightMotorRear.setPower(-0.5);
+            rightMotorRear.setPower(-0.3);
         }
         else
         {
@@ -103,5 +117,8 @@ public class sensorauto_v7 extends OpMode {
         telemetry.addData("Distance Detected Right", distance_r);
         telemetry.addData("encoder left", leftMotorRear.getCurrentPosition());
         telemetry.addData("encoder right", rightMotorRear.getCurrentPosition());
+        telemetry.addData("state", state);
+        telemetry.addData("left power", leftMotorRear.getPower());
+        telemetry.addData("right power", rightMotorRear.getPower());
     }
 }
