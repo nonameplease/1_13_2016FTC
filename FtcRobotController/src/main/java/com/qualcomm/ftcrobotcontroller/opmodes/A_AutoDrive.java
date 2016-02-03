@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.bluetooth.BluetoothClass;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -15,6 +16,8 @@ public class A_AutoDrive extends A_RobotDrive {
 
     DeviceInterfaceModule dim;
     ColorSensor color;
+    AnalogInput ods_l;
+    AnalogInput ods_r;
 
     /*change the value if necessary LOL
     final static int ENCODER_CPR = 1120;
@@ -28,10 +31,12 @@ public class A_AutoDrive extends A_RobotDrive {
     final static int COUNTSINT = (int) COUNTS * -1;
     */
 
-    public A_AutoDrive(DcMotor left, DcMotor right, DcMotor leftrotate, DcMotor rightrotate, Servo Climber, Servo ResQ, DeviceInterfaceModule Dim, ColorSensor Color) {
+    public A_AutoDrive(DcMotor left, DcMotor right, DcMotor leftrotate, DcMotor rightrotate, Servo Climber, Servo ResQ, DeviceInterfaceModule Dim, ColorSensor Color, AnalogInput ODSL, AnalogInput ODSR) {
         super(left, right, leftrotate, rightrotate, Climber, ResQ);
         dim = Dim;
         color = Color;
+        ods_l = ODSL;
+        ods_r = ODSR;
         leftMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
     }
@@ -50,9 +55,80 @@ public class A_AutoDrive extends A_RobotDrive {
         return COUNTSINT;
     }
 
-    public void encoderDrive(int COUNTSINT)
+    public void encoderDrive(int COUNTSINT, double power)
     {
         leftMotor.setTargetPosition(COUNTSINT);
         rightMotor.setTargetPosition(COUNTSINT);
+        leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
     }
+
+    public double colorRed()
+    {
+        int Red = color.red();
+        return Red;
+    }
+    public double colorBlue()
+    {
+        int Blue = color.blue();
+        return Blue;
+    }
+    public double colorGreen()
+    {
+        int Green = color.green();
+        return Green;
+    }
+
+    public String colorDetected()
+    {
+        /*
+        grey
+        blue 220 - 245
+        green 310 - 330
+        red 390 - 410
+
+        white
+        blue 600 - 700
+        green 750 - 900
+        red 800 - 850
+
+        red
+        blue 180 - 220
+        green 220 - 270
+        red 600 - 650
+            */
+        String Color = "no color";
+        if(colorRed() < 450 && colorBlue() < 400 && colorGreen() < 400)
+        {
+            Color = "grey";
+        }
+
+        if(colorRed() > 500 && colorBlue() > 500 && colorGreen() > 500)
+        {
+            Color = "white";
+        }
+
+        if(colorRed() > 500 && colorBlue() < 300 && colorGreen() < 300)
+        {
+            Color = "red";
+        }
+
+        return Color;
+    }
+
+    public double distance_l()
+    {
+        double distance_l = ods_l.getValue();
+        return distance_l;
+    }
+    public double distance_r()
+    {
+        double distance_r = ods_r.getValue();
+        return distance_r;
+    }
+
+
+
 }
