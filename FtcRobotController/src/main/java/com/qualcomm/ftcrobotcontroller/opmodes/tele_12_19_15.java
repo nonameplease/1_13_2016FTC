@@ -14,11 +14,8 @@ public class tele_12_19_15 extends LinearOpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    DcMotor leftMotorRear;
-    DcMotor rightMotorRear;
     DcMotor leftMotorRotate;
     DcMotor rightMotorRotate;
-    DcMotor pickUp;
 
 
     final double UP_POSITION = 0.0;
@@ -32,8 +29,8 @@ public class tele_12_19_15 extends LinearOpMode {
     final double Buffer4 = 0.6;
     final double Buffer5 = 0.5;
 
-    Servo climber;
-    Servo resQ;
+    Servo resQ_l;
+    Servo resQ_r;
 
 
 
@@ -44,20 +41,19 @@ public class tele_12_19_15 extends LinearOpMode {
         /* get reference to the motors from hardware map */
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
-        leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
-        rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
         leftMotorRotate = hardwareMap.dcMotor.get("left_drive_rotate");
         rightMotorRotate = hardwareMap.dcMotor.get("right_drive_rotate");
-        pickUp = hardwareMap.dcMotor.get("pick_up");
 
         /* reverse the right motor */
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotorRotate.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorRear.setDirection(DcMotor.Direction.REVERSE);
 
-        climber = hardwareMap.servo.get("climber");
-        resQ = hardwareMap.servo.get("resQ");
-        resQ.setPosition(CLOSE_POSITION);
+        resQ_l = hardwareMap.servo.get("resQ_l");
+        resQ_r = hardwareMap.servo.get("resQ_r");
+        resQ_l.setPosition(CLOSE_POSITION);
+        resQ_r.setPosition(255 - CLOSE_POSITION);
+
+
 
         waitForStart();
 
@@ -75,9 +71,7 @@ public class tele_12_19_15 extends LinearOpMode {
 
         /* set the power of motors with the gamepad values */
             leftMotor.setPower(leftY);
-            leftMotorRear.setPower(-leftY);
             rightMotor.setPower(rightY);
-            rightMotorRear.setPower(-rightY);
 
         /*
         rotate drive
@@ -102,46 +96,56 @@ public class tele_12_19_15 extends LinearOpMode {
             }
 
 
-            if (gamepad2.x) {
-                climber.setPosition(UP_POSITION);
-            }
-
-            if (gamepad2.a) {
-                climber.setPosition(DOWN_POSITION);
-            }
-
             if (gamepad2.left_bumper) {
-                resQ.setPosition(CLOSE_POSITION);
+                resQ_l.setPosition(CLOSE_POSITION);
+                resQ_r.setPosition(CLOSE_POSITION);
             }
 
             if (gamepad2.right_bumper) {
-                resQ.setPosition(Buffer1);
+                resQ_l.setPosition(Buffer1);
+                resQ_r.setPosition(Buffer1);
                 sleep(200);
-                resQ.setPosition(Buffer2);
+                resQ_l.setPosition(Buffer2);
+                resQ_r.setPosition(Buffer2);
                 sleep(200);
-                resQ.setPosition(Buffer3);
+                resQ_l.setPosition(Buffer3);
+                resQ_r.setPosition(Buffer3);
                 sleep(200);
-                resQ.setPosition(Buffer4);
+                resQ_l.setPosition(Buffer4);
+                resQ_r.setPosition(Buffer4);
                 sleep(200);
-                resQ.setPosition(Buffer5);
+                resQ_l.setPosition(Buffer5);
+                resQ_r.setPosition(Buffer5);
                 sleep(200);
-                resQ.setPosition(RESQ_POSITION);
+                resQ_l.setPosition(RESQ_POSITION);
+                resQ_r.setPosition(RESQ_POSITION);
+            }
 
+            if(-gamepad2.left_stick_y > 0.5)
+            {
+                resQ_l.setDirection(Servo.Direction.FORWARD);
+            }
+            else if(-gamepad2.left_stick_y < -0.5)
+            {
+                resQ_l.setDirection(Servo.Direction.REVERSE);
+            }
+
+            if(-gamepad2.right_stick_y > 0.5)
+            {
+                resQ_r.setDirection(Servo.Direction.FORWARD);
+            }
+            else if(-gamepad2.right_stick_y < -0.5)
+            {
+                resQ_r.setDirection(Servo.Direction.REVERSE);
             }
 
 
-            if (gamepad2.y) {
-                pickUp.setPower(1);
-            } else if (gamepad2.b) {
-                pickUp.setPower(-1);
-            } else {
-                pickUp.setPowerFloat();
-            }
+
 
 
             telemetry.addData("left motor power", leftMotor.getPower());
             telemetry.addData("right motor power", rightMotor.getPower());
-            telemetry.addData("climber position", climber.getPosition());
+            telemetry.addData("resQ position", resQ_r.getPosition());
 
             waitOneFullHardwareCycle();
 

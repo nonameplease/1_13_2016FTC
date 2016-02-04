@@ -82,6 +82,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("encoderauto_turnright", encoder_auto_turnright.class);
     manager.register("sensorauto_v7", sensorauto_v7.class);
     manager.register("endoer_test_5", encoder_test_5.class);
+    manager.register("A_tele", A_Tele.class);
 
 
     /*
