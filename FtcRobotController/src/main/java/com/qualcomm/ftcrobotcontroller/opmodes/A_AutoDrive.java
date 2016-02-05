@@ -48,12 +48,12 @@ public class A_AutoDrive extends A_RobotDrive {
         final int ENCODER_CPR = 1120;
         final int GEAR_RATIO = 1;
         final int WHEEL_DIAMETER = 4;
-        final int DISTANCE = inches; //in inches
+        int DISTANCE = inches; //in inches
 
         final double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-        final double ROTATIONS = DISTANCE / CIRCUMFERENCE;
-        final double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
-        final int COUNTSINT = (int) COUNTS;
+        double ROTATIONS = DISTANCE / CIRCUMFERENCE;
+        double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+        int COUNTSINT = (int) COUNTS;
         return COUNTSINT;
     }
 
@@ -65,6 +65,40 @@ public class A_AutoDrive extends A_RobotDrive {
         rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(power);
         rightMotor.setPower(power);
+    }
+
+    public void turnDrive(char direction, int degree, int power)
+    {
+        //90 degree is 4.5 * pi inches
+        double distance = degree * getTargetCounts(9 * 3) *(1.0/2.0) * 1.0/90.0;
+        int distanceint = (int) distance;
+        switch (direction)
+        {
+            case 'l':
+            {
+                leftMotor.setTargetPosition(-distanceint);
+                rightMotor.setTargetPosition(distanceint);
+                leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+                rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+                leftMotor.setPower(power);
+                rightMotor.setPower(power);
+                break;
+            }
+            case 'r':
+            {
+                leftMotor.setTargetPosition(distanceint);
+                rightMotor.setTargetPosition(-distanceint);
+                leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+                rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+                leftMotor.setPower(power);
+                rightMotor.setPower(power);
+                break;
+            }
+            default:
+            {
+
+            }
+        }
     }
 
     public double colorRed()
@@ -83,7 +117,7 @@ public class A_AutoDrive extends A_RobotDrive {
         return Green;
     }
 
-    public String colorDetected()
+    public char colorDetected()
     {
         /*
         grey
@@ -101,20 +135,20 @@ public class A_AutoDrive extends A_RobotDrive {
         green 220 - 270
         red 600 - 650
             */
-        String Color = "no color";
+        char Color = 'n';
         if(colorRed() < 450 && colorBlue() < 400 && colorGreen() < 400)
         {
-            Color = "grey";
+            Color = 'g';//grey
         }
 
         if(colorRed() > 500 && colorBlue() > 500 && colorGreen() > 500)
         {
-            Color = "white";
+            Color = 'w';//white
         }
 
         if(colorRed() > 500 && colorBlue() < 300 && colorGreen() < 300)
         {
-            Color = "red";
+            Color = 'r';//red
         }
 
         return Color;

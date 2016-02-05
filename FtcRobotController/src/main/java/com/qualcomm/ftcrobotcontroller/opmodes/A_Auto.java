@@ -28,9 +28,35 @@ public class A_Auto extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            myA_AutoDrive.encoderDrive(myA_AutoDrive.getTargetCounts(50), 0.5);
-            myA_AutoDrive.odsDriveToDistance(300, 0.5);
+            do
+            {
+                myA_AutoDrive.encoderDrive(myA_AutoDrive.getTargetCounts(50), 0.5);
+                //myA_AutoDrive.odsDriveToDistance(300, 0.5);
+            }
+            while(0 == 1);
 
+            switch (myA_AutoDrive.colorDetected())
+            {
+                case 'g':
+                {
+                    while (myA_AutoDrive.colorDetected() == 'g')
+                    {
+                        myA_AutoDrive.leftMotor.setPower(0.5);
+                        myA_AutoDrive.rightMotor.setPower(0.5);
+                        wait(100);
+                        break;
+                    }
+                }
+                case 'w':
+                {
+                    myA_AutoDrive.leftMotor.setPowerFloat();
+                    myA_AutoDrive.rightMotor.setPowerFloat();
+                }
+                case 'r':
+                {
+
+                }
+            }
             waitOneFullHardwareCycle();
         }
 
