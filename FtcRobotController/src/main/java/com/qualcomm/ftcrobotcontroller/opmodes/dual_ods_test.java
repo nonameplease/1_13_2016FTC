@@ -29,14 +29,6 @@ public class
         ods_l = hardwareMap.analogInput.get("odsl");
         ods_r = hardwareMap.analogInput.get("odsr");
 
-        leftMotor = hardwareMap.dcMotor.get("left_drive");
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-        leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
-        rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
-
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
-
     }
 
     @Override
@@ -46,38 +38,10 @@ public class
 
 
 
-        if (distance_l < 300)
-        {
-            //leftMotor.setPower(-0.5);
-            //rightMotor.setPower(0.5);
-            leftMotorRear.setPower(-0.5);
-           // rightMotorRear.setPower(0.5);
-        }
-        else
-        {
-            //leftMotor.setPowerFloat();
-           // rightMotor.setPowerFloat();
-            leftMotorRear.setPowerFloat();
-           // rightMotorRear.setPowerFloat();
-        }
-
-        if (distance_r < 300)
-        {
-            //rightMotor.setPower(-0.5);
-            rightMotorRear.setPower(-0.5);
-        }
-        else
-        {
-            rightMotorRear.setPowerFloat();
-           // rightMotor.setPowerFloat();
-        }
-
 
 
         telemetry.addData("Distance Detected Left", distance_l);
         telemetry.addData("Distance Detected Right", distance_r);
-        telemetry.addData("encoder left", leftMotor.getCurrentPosition());
-        telemetry.addData("encoder right", rightMotor.getCurrentPosition());
 
     }
 }

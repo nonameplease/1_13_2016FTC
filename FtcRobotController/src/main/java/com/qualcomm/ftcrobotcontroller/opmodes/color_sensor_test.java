@@ -34,8 +34,6 @@ public class color_sensor_test extends OpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    DcMotor leftMotorRear;
-    DcMotor rightMotorRear;
 
     @Override
     public void init() {
@@ -44,11 +42,7 @@ public class color_sensor_test extends OpMode {
 
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
-        leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
-        rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
-
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
 
 
     }
@@ -59,20 +53,6 @@ public class color_sensor_test extends OpMode {
         int Blue = color.blue();
         int Green = color.green();
 
-        if(Red < 375 && Blue < 350 && Green < 350)
-        {
-            leftMotor.setPower(0.5);
-            rightMotor.setPower(0.5);
-            leftMotorRear.setPower(0.5);
-            rightMotorRear.setPower(0.5);
-        }
-        else
-        {
-            leftMotor.setPowerFloat();
-            rightMotor.setPowerFloat();
-            leftMotorRear.setPowerFloat();
-            rightMotorRear.setPowerFloat();
-        }
 
 
 
