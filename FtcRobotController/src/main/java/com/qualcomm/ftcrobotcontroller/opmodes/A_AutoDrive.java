@@ -31,8 +31,10 @@ public class A_AutoDrive extends A_RobotDrive {
     final static int COUNTSINT = (int) COUNTS * -1;
     */
 
-    public A_AutoDrive(DcMotor left, DcMotor right, DcMotor leftrotate, DcMotor rightrotate, Servo Climber, Servo ResQ, DeviceInterfaceModule Dim, ColorSensor Color, AnalogInput ODSL, AnalogInput ODSR) {
-        super(left, right, leftrotate, rightrotate, Climber, ResQ);
+    public A_AutoDrive(DcMotor left, DcMotor right, DcMotor leftrotate, DcMotor rightrotate,
+                       DcMotor Climber, Servo ResQl, Servo ResQr, DeviceInterfaceModule Dim,
+                       ColorSensor Color, AnalogInput ODSL, AnalogInput ODSR) {
+        super(left, right, leftrotate, rightrotate, Climber, ResQl, ResQr);
         dim = Dim;
         color = Color;
         ods_l = ODSL;
@@ -58,7 +60,7 @@ public class A_AutoDrive extends A_RobotDrive {
     public void encoderDrive(int COUNTSINT, double power)
     {
         leftMotor.setTargetPosition(COUNTSINT);
-        rightMotor.setTargetPosition(COUNTSINT);
+        rightMotor.setTargetPosition(-COUNTSINT);
         leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(power);
@@ -127,6 +129,35 @@ public class A_AutoDrive extends A_RobotDrive {
     {
         double distance_r = ods_r.getValue();
         return distance_r;
+    }
+
+    public void odsDriveToDistance(int distance, double power)
+    {
+        if (distance_l() < distance)
+        {
+            leftMotor.setPower(-power);
+            //rightMotor.setPower(0.5);
+            //leftMotorRear.setPower(-0.5);
+            // rightMotorRear.setPower(0.5);
+        }
+        else
+        {
+            leftMotor.setPowerFloat();
+            // rightMotor.setPowerFloat();
+            //leftMotorRear.setPowerFloat();
+            // rightMotorRear.setPowerFloat();
+        }
+
+        if (distance_r() < distance)
+        {
+            rightMotor.setPower(-power);
+            //rightMotorRear.setPower(-0.5);
+        }
+        else
+        {
+            //rightMotorRear.setPowerFloat();
+            rightMotor.setPowerFloat();
+        }
     }
 
 

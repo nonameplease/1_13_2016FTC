@@ -16,14 +16,15 @@ public class tele_12_19_15 extends LinearOpMode {
     DcMotor rightMotor;
     DcMotor leftMotorRotate;
     DcMotor rightMotorRotate;
+    DcMotor Climber;
 
 
     final double UP_POSITION = 0.0;
     final double DOWN_POSITION = 0.8;
 
-    final double CLOSE_POSITION = 1;
-    final double RESQ_POSITION = 0.3;
-    final double Buffer1 = 0.9;
+    final double CLOSE_POSITION = 0.2;
+    final double RESQ_POSITION = 0.8;
+    final double Buffer1 = 0.2;
     final double Buffer2 = 0.8;
     final double Buffer3 = 0.7;
     final double Buffer4 = 0.6;
@@ -43,6 +44,7 @@ public class tele_12_19_15 extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         leftMotorRotate = hardwareMap.dcMotor.get("left_drive_rotate");
         rightMotorRotate = hardwareMap.dcMotor.get("right_drive_rotate");
+        Climber = hardwareMap.dcMotor.get("climber");
 
         /* reverse the right motor */
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -51,7 +53,7 @@ public class tele_12_19_15 extends LinearOpMode {
         resQ_l = hardwareMap.servo.get("resQ_l");
         resQ_r = hardwareMap.servo.get("resQ_r");
         resQ_l.setPosition(CLOSE_POSITION);
-        resQ_r.setPosition(255 - CLOSE_POSITION);
+        double positionr = resQ_r.getPosition();
 
 
 
@@ -102,23 +104,18 @@ public class tele_12_19_15 extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                resQ_l.setPosition(Buffer1);
-                resQ_r.setPosition(Buffer1);
+                resQ_l.setPosition(CLOSE_POSITION + 0.1);
+                resQ_r.setPosition(positionr - 0.1);
                 sleep(200);
-                resQ_l.setPosition(Buffer2);
-                resQ_r.setPosition(Buffer2);
+                resQ_l.setPosition(CLOSE_POSITION + 0.2);
+                resQ_r.setPosition(positionr - 0.2);
                 sleep(200);
-                resQ_l.setPosition(Buffer3);
-                resQ_r.setPosition(Buffer3);
+                resQ_l.setPosition(CLOSE_POSITION + 0.3);
+                resQ_r.setPosition(positionr - 0.3);
                 sleep(200);
-                resQ_l.setPosition(Buffer4);
-                resQ_r.setPosition(Buffer4);
+                resQ_l.setPosition(CLOSE_POSITION + 0.4);
+                resQ_r.setPosition(positionr - 0.4);
                 sleep(200);
-                resQ_l.setPosition(Buffer5);
-                resQ_r.setPosition(Buffer5);
-                sleep(200);
-                resQ_l.setPosition(RESQ_POSITION);
-                resQ_r.setPosition(RESQ_POSITION);
             }
 
             if(-gamepad2.left_stick_y > 0.5)
@@ -137,6 +134,19 @@ public class tele_12_19_15 extends LinearOpMode {
             else if(-gamepad2.right_stick_y < -0.5)
             {
                 resQ_r.setDirection(Servo.Direction.REVERSE);
+            }
+
+            if(gamepad2.x)
+            {
+                Climber.setPower(1);
+            }
+            else if(gamepad2.b)
+            {
+                Climber.setPower(-1);
+            }
+            else
+            {
+                Climber.setPower(0);
             }
 
 
