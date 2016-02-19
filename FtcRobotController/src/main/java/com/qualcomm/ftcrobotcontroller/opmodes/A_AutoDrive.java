@@ -60,11 +60,46 @@ public class A_AutoDrive extends A_RobotDrive {
     public void encoderDrive(int COUNTSINT, double power)
     {
         leftMotor.setTargetPosition(COUNTSINT);
-        rightMotor.setTargetPosition(-COUNTSINT);
+        rightMotor.setTargetPosition(COUNTSINT);
         leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(power);
-        rightMotor.setPower(power);
+        rightMotor.setPower(-power);
+    }
+
+    public void encoderDriveUsingPosition(int COUNTSINT, double power) {
+        leftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        if(COUNTSINT > Math.abs(leftMotor.getCurrentPosition()))
+        {
+            leftMotor.setPower(-power);
+        }
+        else
+        {
+            leftMotor.setPowerFloat();
+        }
+
+        if(COUNTSINT > Math.abs(rightMotor.getCurrentPosition()))
+        {
+            rightMotor.setPower(-power);
+        }
+        else
+        {
+            rightMotor.setPowerFloat();
+        }
+    }
+
+    public void encoderReset()
+    {
+        leftMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+    }
+
+    public void drive(double leftpower, double rightpower)
+    {
+        leftMotor.setPower(leftpower);
+        rightMotor.setPower(rightpower);
     }
 
     public void turnDrive(char direction, int degree, int power)
@@ -117,7 +152,7 @@ public class A_AutoDrive extends A_RobotDrive {
         return Green;
     }
 
-    public char colorDetected()
+    public int colorDetected()
     {
         /*
         grey
@@ -135,20 +170,20 @@ public class A_AutoDrive extends A_RobotDrive {
         green 220 - 270
         red 600 - 650
             */
-        char Color = 'n';
+        int Color = 0;
         if(colorRed() < 450 && colorBlue() < 400 && colorGreen() < 400)
         {
-            Color = 'g';//grey
+            Color = 1;//grey
         }
 
         if(colorRed() > 500 && colorBlue() > 500 && colorGreen() > 500)
         {
-            Color = 'w';//white
+            Color = 2;//white
         }
 
         if(colorRed() > 500 && colorBlue() < 300 && colorGreen() < 300)
         {
-            Color = 'r';//red
+            Color = 3;//red
         }
 
         return Color;
@@ -165,31 +200,31 @@ public class A_AutoDrive extends A_RobotDrive {
         return distance_r;
     }
 
-    public void odsDriveToDistance(int distance, double power)
+    public void odsDriveToDistance()
     {
-        if (distance_l() < distance)
+        if(distance_l() < 300)
         {
-            leftMotor.setPower(-power);
-            //rightMotor.setPower(0.5);
-            //leftMotorRear.setPower(-0.5);
-            // rightMotorRear.setPower(0.5);
+            leftMotor.setPower(-0.4);
+        }
+        else if(distance_l() > 350)
+        {
+            leftMotor.setPower(0.4);
         }
         else
         {
             leftMotor.setPowerFloat();
-            // rightMotor.setPowerFloat();
-            //leftMotorRear.setPowerFloat();
-            // rightMotorRear.setPowerFloat();
         }
 
-        if (distance_r() < distance)
+        if(distance_r() < 300)
         {
-            rightMotor.setPower(-power);
-            //rightMotorRear.setPower(-0.5);
+            rightMotor.setPower(-0.4);
+        }
+        else if(distance_r() > 350)
+        {
+            rightMotor.setPower(0.4);
         }
         else
         {
-            //rightMotorRear.setPowerFloat();
             rightMotor.setPowerFloat();
         }
     }

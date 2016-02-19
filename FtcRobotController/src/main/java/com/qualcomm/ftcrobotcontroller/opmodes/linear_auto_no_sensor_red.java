@@ -11,11 +11,9 @@ public class linear_auto_no_sensor_red extends LinearOpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    DcMotor leftMotorRear;
-    DcMotor rightMotorRear;
     DcMotor leftMotorRotate;
     DcMotor rightMotorRotate;
-    DcMotor pickUp;
+    DcMotor climber;
     VoltageSensor voltage;
 
     @Override
@@ -24,17 +22,14 @@ public class linear_auto_no_sensor_red extends LinearOpMode {
                 /* get reference to the motors from hardware map */
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
-        leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
-        rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
         leftMotorRotate = hardwareMap.dcMotor.get("left_drive_rotate");
         rightMotorRotate = hardwareMap.dcMotor.get("right_drive_rotate");
-        pickUp = hardwareMap.dcMotor.get("pick_up");
+        climber = hardwareMap.dcMotor.get("climber");
         voltage = this.hardwareMap.voltageSensor.iterator().next();
 
         /* reverse the right motor */
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotorRotate.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorRear.setDirection(DcMotor.Direction.REVERSE);
 
 
         waitForStart();
@@ -43,36 +38,26 @@ public class linear_auto_no_sensor_red extends LinearOpMode {
 
         leftMotor.setPower(1);
         rightMotor.setPower(1);
-        leftMotorRear.setPower(-1);
-        rightMotorRear.setPower(-1);
 
         sleep(3300);
 
         leftMotor.setPowerFloat();
         rightMotor.setPowerFloat();
-        leftMotorRear.setPowerFloat();
-        rightMotorRear.setPowerFloat();
 
         sleep(200);
 
         leftMotor.setPower(-1);
-        leftMotorRear.setPower(1);
         rightMotor.setPower(1);
-        rightMotorRear.setPower(-1);
 
         sleep(700);
         
         leftMotor.setPower(1);
-        leftMotorRear.setPower(-1);
         rightMotor.setPower(1);
-        rightMotorRear.setPower(-1);
 
         sleep(1200);
 
         leftMotor.setPowerFloat();
-        leftMotorRear.setPowerFloat();
         rightMotor.setPowerFloat();
-        rightMotorRear.setPowerFloat();
 
     }
 }

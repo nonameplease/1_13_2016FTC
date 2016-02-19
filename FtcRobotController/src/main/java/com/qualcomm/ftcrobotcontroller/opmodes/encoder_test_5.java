@@ -15,8 +15,8 @@ public class encoder_test_5 extends OpMode {
     DeviceInterfaceModule dim;
     ColorSensor color;
 
-    DcMotor leftMotorRear;
-    DcMotor rightMotorRear;
+    DcMotor leftMotor;
+    DcMotor rightMotor;
     //change the value if necessary LOL
     final static int ENCODER_CPR = 1120;
     final static int GEAR_RATIO = 1;
@@ -26,7 +26,7 @@ public class encoder_test_5 extends OpMode {
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
     final static double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
-    final static int COUNTSINT = (int) COUNTS * -1;
+    final static int COUNTSINT = (int) COUNTS;
     String state = "running";
 
     @Override
@@ -35,13 +35,13 @@ public class encoder_test_5 extends OpMode {
         dim = hardwareMap.deviceInterfaceModule.get("device");
         color = hardwareMap.colorSensor.get("color");
 
-        leftMotorRear = hardwareMap.dcMotor.get("left_drive_rear");
-        rightMotorRear = hardwareMap.dcMotor.get("right_drive_rear");
+        leftMotor = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
 
-        rightMotorRear.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        leftMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightMotorRear.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        leftMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightMotor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
     }
 
@@ -53,16 +53,16 @@ public class encoder_test_5 extends OpMode {
         for(int i=1; i < 2; i++)
         {
 
-            leftMotorRear.setTargetPosition(COUNTSINT);
-            rightMotorRear.setTargetPosition(COUNTSINT);
-            leftMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            rightMotorRear.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            leftMotor.setTargetPosition(COUNTSINT);
+            rightMotor.setTargetPosition(COUNTSINT);
+            leftMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            rightMotor.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-            leftMotorRear.setPower(-0.5);
-            rightMotorRear.setPower(-0.5);
+            leftMotor.setPower(0.5);
+            rightMotor.setPower(-0.5);
         }
 
-        if (!leftMotorRear.isBusy() && !rightMotorRear.isBusy())
+        if (!leftMotor.isBusy() && !rightMotor.isBusy())
         {
             state = "stopped";
         }
@@ -75,9 +75,11 @@ public class encoder_test_5 extends OpMode {
 
 
         telemetry.addData("Counts", COUNTSINT);
-        telemetry.addData("left counts = ", leftMotorRear.getCurrentPosition());
-        telemetry.addData("right counts =", rightMotorRear.getCurrentPosition());
+        telemetry.addData("left counts = ", leftMotor.getCurrentPosition());
+        telemetry.addData("right counts =", rightMotor.getCurrentPosition());
         telemetry.addData("running status", state);
+        telemetry.addData("left power", leftMotor.getPower());
+        telemetry.addData("right power", rightMotor.getPower());
 
 
         /** if (COUNTS > Math.abs(leftMotorRear.getCurrentPosition())) {

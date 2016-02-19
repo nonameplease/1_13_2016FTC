@@ -1,6 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -14,10 +15,12 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 /*
 This one really works!!!!
  */
-public class encoder_test_2 extends LinearOpMode {
+public class auto1 extends LinearOpMode {
 
     DeviceInterfaceModule dim;
     ColorSensor color;
+    AnalogInput ods_l;
+    AnalogInput ods_r;
 
     DcMotor leftMotor;
     DcMotor rightMotor;
@@ -25,7 +28,7 @@ public class encoder_test_2 extends LinearOpMode {
     final static int ENCODER_CPR = 1120;
     final static double GEAR_RATIO = 1;
     final static int WHEEL_DIAMETER = 4;
-    final static int DISTANCE = 72; //in inches
+    final static int DISTANCE = 120 ; //in inches
 
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
@@ -36,6 +39,8 @@ public class encoder_test_2 extends LinearOpMode {
 
         dim = hardwareMap.deviceInterfaceModule.get("device");
         color = hardwareMap.colorSensor.get("color");
+        ods_l = hardwareMap.analogInput.get("odsl");
+        ods_r = hardwareMap.analogInput.get("odsr");
 
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
@@ -51,6 +56,7 @@ public class encoder_test_2 extends LinearOpMode {
         rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
         while(opModeIsActive()) {
+
 
             if(COUNTS > Math.abs(leftMotor.getCurrentPosition()))
             {
@@ -69,6 +75,10 @@ public class encoder_test_2 extends LinearOpMode {
             {
                 rightMotor.setPowerFloat();
             }
+
+
+
+
             /*
             if (COUNTS + 50 > Math.abs(leftMotor.getCurrentPosition())) {
 
@@ -118,7 +128,7 @@ public class encoder_test_2 extends LinearOpMode {
             telemetry.addData("left power", leftMotor.getPower());
             telemetry.addData("right power", rightMotor.getPower());
         }
-        }
-
     }
+
+}
 

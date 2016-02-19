@@ -28,6 +28,9 @@ public class
         dim = hardwareMap.deviceInterfaceModule.get("device");
         ods_l = hardwareMap.analogInput.get("odsl");
         ods_r = hardwareMap.analogInput.get("odsr");
+        leftMotor = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -35,6 +38,32 @@ public class
     public void loop() {
         double distance_l = ods_l.getValue();
         double distance_r = ods_r.getValue();
+
+        if(distance_l < 300)
+        {
+            leftMotor.setPower(-0.4);
+        }
+        else if(distance_l > 350)
+        {
+            leftMotor.setPower(0.4);
+        }
+        else
+        {
+            leftMotor.setPowerFloat();
+        }
+
+        if(distance_r < 300)
+        {
+            rightMotor.setPower(-0.4);
+        }
+        else if(distance_r > 350)
+        {
+            rightMotor.setPower(0.4);
+        }
+        else
+        {
+            rightMotor.setPowerFloat();
+        }
 
 
 

@@ -26,38 +26,36 @@ public class A_Auto extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive())
-        {
-            do
+        while(opModeIsActive()) {
+           // myA_AutoDrive.encoderDriveUsingPosition(myA_AutoDrive.getTargetCounts(120), 0.2);
+            myA_AutoDrive.leftMotor.setPower(1);
+            myA_AutoDrive.rightMotor.setPower(1);
+            wait(500);
+            myA_AutoDrive.leftMotor.setPowerFloat();
+            myA_AutoDrive.rightMotor.setPowerFloat();
+
+
+           /* do
             {
-                myA_AutoDrive.encoderDrive(myA_AutoDrive.getTargetCounts(50), 0.5);
+                myA_AutoDrive.encoderDriveUsingPosition(myA_AutoDrive.getTargetCounts(-50), -0.3);
                 //myA_AutoDrive.odsDriveToDistance(300, 0.5);
             }
             while(0 == 1);
 
-            switch (myA_AutoDrive.colorDetected())
+            while(myA_AutoDrive.colorDetected() == 'g')
             {
-                case 'g':
-                {
-                    while (myA_AutoDrive.colorDetected() == 'g')
-                    {
-                        myA_AutoDrive.leftMotor.setPower(0.5);
-                        myA_AutoDrive.rightMotor.setPower(0.5);
-                        wait(100);
-                        break;
-                    }
-                }
-                case 'w':
-                {
-                    myA_AutoDrive.leftMotor.setPowerFloat();
-                    myA_AutoDrive.rightMotor.setPowerFloat();
-                }
-                case 'r':
-                {
+                myA_AutoDrive.leftMotor.setPower(0.5);
+                myA_AutoDrive.rightMotor.setPower(0.5);
+            }*/
 
-                }
-            }
-            waitOneFullHardwareCycle();
+            //myA_AutoDrive.odsDriveToDistance(300, 0.3);
+            // myA_AutoDrive.encoderDrive(50, 1.0);
+
+
+            telemetry.addData("encoder left", myA_AutoDrive.leftMotor.getCurrentPosition());
+            telemetry.addData("encoder right", myA_AutoDrive.rightMotor.getCurrentPosition());
+            telemetry.addData("current color", myA_AutoDrive.colorDetected());
+
         }
 
     }
